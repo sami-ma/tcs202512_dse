@@ -3,3 +3,57 @@ Datastax Enterprise Training:
 Day - 1
 -------
 
+Install one node cluster:
+
+
+Welcome to Datastax:
+
+Day2:
+
+[admin@dse ~]$ cat /etc/rocky-release
+Rocky Linux release 9.6 (Blue Onyx)
+[admin@dse ~]$
+
+
+[admin@dse ~]$ java -version
+openjdk version "1.8.0_472"
+OpenJDK Runtime Environment (build 1.8.0_472-b08)
+OpenJDK 64-Bit Server VM (build 25.472-b08, mixed mode)
+[admin@dse ~]$ echo $JAVA_HOME
+/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.472.b08-1.el9.x86_64
+[admin@dse ~]$
+
+[admin@dse ~]$ sudo alternatives --config java
+[sudo] password for admin:
+
+There is 1 program that provides 'java'.
+
+  Selection    Command
+-----------------------------------------------
+*+ 1           java-1.8.0-openjdk.x86_64 (/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.472.b08-1.el9.x86_64/jre/bin/java)
+
+Enter to keep the current selection[+], or type selection number: 1
+[admin@dse ~]$
+
+[admin@dse ~]$ rpm -qa|grep libaio
+libaio-0.3.111-13.el9.x86_64
+[admin@dse ~]$
+
+[admin@dse ~]$ ls
+dse-5.1.48-bin.tar.gz
+[admin@dse ~]$ id admin
+uid=1000(admin) gid=1000(admin) groups=1000(admin),10(wheel)
+[admin@dse ~]$ sudo useradd cassandra
+[sudo] password for admin:
+[admin@dse ~]$ sudo passwd cassandra
+Changing password for user cassandra.
+New password:
+BAD PASSWORD: The password contains the user name in some form
+Retype new password:
+passwd: all authentication tokens updated successfully.
+[admin@dse ~]$
+
+
+
+
+
