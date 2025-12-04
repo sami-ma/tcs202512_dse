@@ -3,9 +3,10 @@ Datastax Enterprise Training:
 Day - 1
 -------
 
-Install one node cluster:
 
 
+Remove Ads
+    SP MO  
 Welcome to Datastax:
 
 Day2:
@@ -53,6 +54,127 @@ Retype new password:
 passwd: all authentication tokens updated successfully.
 [admin@dse ~]$
 
+[cassandra@dse ~]$ ls
+dse-5.1.48-bin.tar.gz
+[cassandra@dse ~]$ whoami
+cassandra
+[cassandra@dse ~]$ echo $JAVA_HOME
+/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.472.b08-1.el9.x86_64
+[cassandra@dse ~]$ tar -xzf dse-5.1.48-bin.tar.gz
+[cassandra@dse ~]$ ls
+dse-5.1.48  dse-5.1.48-bin.tar.gz
+
+
+
+[cassandra@dse ~]$ ln -s dse-5.1.48 dse
+[cassandra@dse ~]$ ll
+total 916132
+lrwxrwxrwx.  1 cassandra cassandra        10 Dec  4 10:00 dse -> dse-5.1.48
+drwxr-xr-x. 10 cassandra cassandra      4096 Mar 12  2025 dse-5.1.48
+-rw-r--r--.  1 cassandra cassandra 938114780 Dec  4 09:45 dse-5.1.48-bin.tar.gz
+[cassandra@dse ~]$
+
+
+[cassandra@dse ~]$ nano .bashrc
+[cassandra@dse ~]$ cat .bashrc
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+
+# User specific environment
+if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
+then
+    PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+fi
+export PATH
+
+export DSE_HOME=/home/cassandra/dse
+export PATH=/home/cassandra/dse/bin:$PATH
+
+# Uncomment the following line if you don't like systemctl's auto-paging feature:
+# export SYSTEMD_PAGER=
+
+# User specific aliases and functions
+if [ -d ~/.bashrc.d ]; then
+        for rc in ~/.bashrc.d/*; do
+                if [ -f "$rc" ]; then
+                        . "$rc"
+                fi
+        done
+fi
+
+unset rc
+[cassandra@dse ~]$
+
+[cassandra@dse ~]$ source .bashrc
+[cassandra@dse ~]$ echo $DSE_HOME
+/home/cassandra/dse
+[cassandra@dse ~]$
+
+
+edit cassandra.yaml file:
+[cassandra@dse ~]$ nano dse/resources/cassandra/conf/cassandra.yaml
+[cassandra@dse ~]$ cat dse/resources/cassandra/conf/cassandra.yaml |grep -i cluster_name
+cluster_name: 'tcscluster'
+
+
+[cassandra@dse ~]$ cat dse/resources/cassandra/conf/cassandra.yaml |grep -i listen_address
+# Set listen_address OR listen_interface, not both.
+# Setting listen_address to 0.0.0.0 is always wrong.
+listen_address: localhost
+# Set listen_address OR listen_interface, not both. Interfaces must correspond
+# Leaving this blank will set it to the same value as listen_address
+# the listen_address, allowing nodes to communicate in both
+# Leaving rpc_address blank has the same effect as on listen_address
+# Note that unlike listen_address, you can specify 0.0.0.0, but you must also
+[cassandra@dse ~]$ cat dse/resources/cassandra/conf/cassandra.yaml |grep -i rpc_address
+# same as the rpc_address. The port however is different and specified below.
+# Set rpc_address OR rpc_interface, not both.
+# Leaving rpc_address blank has the same effect as on listen_address
+# set broadcast_rpc_address to a value other than 0.0.0.0.
+rpc_address: 10.0.26.1
+# Set rpc_address OR rpc_interface, not both. Interfaces must correspond
+# rpc_address. If rpc_address is set to 0.0.0.0, broadcast_rpc_address must
+# broadcast_rpc_address: 1.2.3.4
+[cassandra@dse ~]$ cat dse/resources/cassandra/conf/cassandra.yaml |grep -i seeds
+          # seeds is actually a comma-delimited list of addresses.
+          - seeds: "127.0.0.1"
+# Probability cassandra will Gossip with one of the seeds during each round of gossip
+[cassandra@dse ~]$
+
+
+Create /var/lib/cassandra directory:
+
+[admin@dse ~]$ sudo mkdir -p /var/lib/cassandra
+[sudo] password for admin:
+[admin@dse ~]$ ls -ld /var/lib/cassandra/
+drwxr-xr-x. 2 root root 6 Dec  4 10:37 /var/lib/cassandra/
+[admin@dse ~]$ sudo chown cassandra:cassandra  /var/lib/cassandra
+[admin@dse ~]$ ls -ld /var/lib/cassandra/
+drwxr-xr-x. 2 cassandra cassandra 6 Dec  4 10:37 /var/lib/cassandra/
+[admin@dse ~]$
+
+
+[admin@dse ~]$ sudo mkdir -p /var/log/cassandra
+[admin@dse ~]$ sudo chown cassandra:cassandra  /var/log/cassandra
+[admin@dse ~]$ ls -ld /var/log/cassandra/
+drwxr-xr-x. 2 cassandra cassandra 6 Dec  4 10:39 /var/log/cassandra/
+[admin@dse ~]$
+
+
+[cassandra@dse ~]$ which dse
+~/dse/bin/dse
+[cassandra@dse ~]$ dse cassandra -f
+
+
+
+ Editable Link  Share Link
+Words: 599 | Chars: 5081 | Views: 3
+Last Updated: 5 Seconds ago
+Privacy  Terms  Contact Us  About Us
 
 
 
