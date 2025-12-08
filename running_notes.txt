@@ -176,6 +176,37 @@ Words: 599 | Chars: 5081 | Views: 3
 Last Updated: 5 Seconds ago
 Privacy  Terms  Contact Us  About Us
 
+Day 4:
+
+[cassandra@dse conf]$ pwd
+/home/cassandra/dse/resources/cassandra/conf
+[cassandra@dse conf]$
+
+
+cqlsh> consistency
+Current consistency level is ONE.
+cqlsh> consistency two
+Consistency level set to TWO.
+cqlsh> consistency
+Current consistency level is TWO.
+cqlsh> consistency quorum
+Consistency level set to QUORUM.
+cqlsh> consistency
+Current consistency level is QUORUM.
+cqlsh>
+
+cqlsh> consistency
+Current consistency level is ONE.
+cqlsh> consistency two
+Consistency level set to TWO.
+cqlsh> consistency
+Current consistency level is TWO.
+cqlsh> consistency quorum
+Consistency level set to QUORUM.
+cqlsh> consistency
+Current consistency level is QUORUM.
+cqlsh>
+
 
 
 
