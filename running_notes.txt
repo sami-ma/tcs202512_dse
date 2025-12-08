@@ -207,6 +207,78 @@ cqlsh> consistency
 Current consistency level is QUORUM.
 cqlsh>
 
+Day 4:
 
+[cassandra@dse conf]$ pwd
+/home/cassandra/dse/resources/cassandra/conf
+[cassandra@dse conf]$
+
+
+cqlsh> consistency
+Current consistency level is ONE.
+cqlsh> consistency two
+Consistency level set to TWO.
+cqlsh> consistency
+Current consistency level is TWO.
+cqlsh> consistency quorum
+Consistency level set to QUORUM.
+cqlsh> consistency
+Current consistency level is QUORUM.
+cqlsh>
+
+cqlsh> consistency
+Current consistency level is ONE.
+cqlsh> consistency two
+Consistency level set to TWO.
+cqlsh> consistency
+Current consistency level is TWO.
+cqlsh> consistency quorum
+Consistency level set to QUORUM.
+cqlsh> consistency
+Current consistency level is QUORUM.
+cqlsh>
+
+
+CREATE KEYSPACE excalibur
+WITH REPLICATION = {
+  'class' : 'NetworkTopologyStrategy',
+  'replication_factor' : 3
+};
+
+cqlsh:system> CREATE KEYSPACE excalibur WITH REPLICATION = {   'class' : 'SimpleStrategy',   'replication_factor' : 3 };
+cqlsh:system>
+
+cqlsh:system> use excalibur;
+
+cqlsh:excalibur> create table orders (ordid int primary key, custname text, orderval float );
+cqlsh:excalibur>
+
+cqlsh:excalibur> insert into orders (ordid, custname, orderval) values (10
+, 'John', 55.3);
+cqlsh:excalibur> select * From orders;
+
+ ordid | custname | orderval
+-------+----------+----------
+    10 |     John |     55.3
+
+(1 rows)
+cqlsh:excalibur>
+
+
+cqlsh:excalibur> select * from orders where custname='John' allow filtering;
+
+ ordid | custname | orderval
+-------+----------+----------
+    10 |     John |     55.3
+
+(1 rows)
+cqlsh:excalibur> select * from orders where ordid=20;
+
+ ordid | custname | orderval
+-------+----------+----------
+    20 |     Kyle |     54.3
+
+(1 rows)
+cqlsh:excalibur>
 
 
