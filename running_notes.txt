@@ -406,4 +406,34 @@ role_management_options:
 
 and Restart cassandra service
 
+Connect to cassandra with autehntication:
+
+[cassandra@dse conf]$ cqlsh 10.0.26.1  -u cassandra
+Password:
+Connected to tcscluster at 10.0.26.1:9042.
+[cqlsh 5.0.1 | DSE 5.1.48 | CQL spec 3.4.4 | DSE protocol v1]
+Use HELP for help.
+cassandra@cqlsh> describe keyspaces
+
+system_auth    dse_leases          system_distributed  dse_perf
+system_schema  dse_insights        system              system_traces
+dse_system     dse_insights_local  excalibur           dse_security
+
+cassandra@cqlsh> use excalibur
+   ... ;
+cassandra@cqlsh:excalibur> describe tables;
+
+orders  test
+
+cassandra@cqlsh:excalibur> select * from test;
+
+ id | name
+----+------
+  1 |   aa
+  2 |  bbb
+  3 |   cc
+
+(3 rows)
+cassandra@cqlsh:excalibur>
+
 
