@@ -322,3 +322,55 @@ cqlsh:excalibur> select * from orders;
 (1 rows)
 cqlsh:excalibur>
 
+Automic transaction using Apply:
+
+cqlsh:excalibur> select * from orders;
+
+ ordid | custname | orderval
+-------+----------+----------
+    10 |      Kim |       72
+    30 |     Brad |     17.5
+    20 |     Kyle |     54.3
+    40 |     John |     34.7
+
+(4 rows)
+cqlsh:excalibur> create table test (id int, name text, primary key (id) );
+
+cqlsh:excalibur> insert into test (id, name) values  (1, 'aa');
+cqlsh:excalibur> insert into test (id, name) values  (2,'bbb')
+             ... ;
+cqlsh:excalibur> insert into test (id, name) values  (3,'cc') ;
+cqlsh:excalibur> select * from test;
+
+ id | name
+----+------
+  1 |   aa
+  2 |  bbb
+  3 |   cc
+
+(3 rows)
+cqlsh:excalibur> select * from orders;
+
+ ordid | custname | orderval
+-------+----------+----------
+    10 |      Kim |       72
+    30 |     Brad |     17.5
+    20 |     Kyle |     54.3
+    40 |     John |     34.7
+
+(4 rows)
+cqlsh:excalibur> begin batch
+             ... insert into test (id, name) values (4, 'd');
+             ... delete address from orders where ordid = 20;
+             ... apply batch;
+InvalidRequest: Error from server: code=2200 [Invalid query] message="Undefined column name address"
+cqlsh:excalibur> select * from test;
+
+ id | name
+----+------
+  1 |   aa
+  2 |  bbb
+  3 |   cc
+
+(3 rows)
+cqlsh:excalibur>
