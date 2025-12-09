@@ -374,3 +374,36 @@ cqlsh:excalibur> select * from test;
 
 (3 rows)
 cqlsh:excalibur>
+
+
+enable authentication:
+
+in dse.yaml file:
+
+[cassandra@dse conf]$ vi /home/cassandra/dse/resources/dse/conf/dse.yaml
+[cassandra@dse conf]$
+
+
+authentication_options:
+     enabled: true
+     default_scheme: internal
+#     allow_digest_with_kerberos: true
+#     plain_text_without_ssl: warn
+     transitional_mode: disabled
+#     other_schemes:
+#     scheme_permissions: false
+
+
+
+role_management_options:
+     mode: internal
+#     stats: false
+#     mode_by_authentication:
+#         internal:
+#         ldap:
+#         kerberos:
+
+
+and Restart cassandra service
+
+
