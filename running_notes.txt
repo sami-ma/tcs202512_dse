@@ -281,4 +281,44 @@ cqlsh:excalibur> select * from orders where ordid=20;
 (1 rows)
 cqlsh:excalibur>
 
+Day - 5
+----------
+
+cqlsh:excalibur> create index myidx on orders (custname);
+
+cqlsh:excalibur> select * From orders where custname = 'John';
+
+ ordid | custname | orderval
+-------+----------+----------
+    10 |     John |     55.3
+
+(1 rows)
+cqlsh:excalibur>
+
+cqlsh:excalibur> select * from orders;
+
+ ordid | custname | orderval
+-------+----------+----------
+    10 |     John |     55.3
+    20 |     Kyle |     54.3
+
+(2 rows)
+cqlsh:excalibur> delete orderval from orders where ordid = 10;
+cqlsh:excalibur> select * from orders;
+
+ ordid | custname | orderval
+-------+----------+----------
+    10 |     John |     null
+    20 |     Kyle |     54.3
+
+(2 rows)
+cqlsh:excalibur> delete from orders where ordid = 10;
+cqlsh:excalibur> select * from orders;
+
+ ordid | custname | orderval
+-------+----------+----------
+    20 |     Kyle |     54.3
+
+(1 rows)
+cqlsh:excalibur>
 
