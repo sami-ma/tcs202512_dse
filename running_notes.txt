@@ -436,4 +436,13 @@ cassandra@cqlsh:excalibur> select * from test;
 (3 rows)
 cassandra@cqlsh:excalibur>
 
+Security:
+
+ALTER KEYSPACE system_auth WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 3};
+
+ALTER KEYSPACE dse_security WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 3};
+
+nodetool repair system_auth
+nodetool repair dse_security
+
 
