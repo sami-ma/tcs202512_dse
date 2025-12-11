@@ -445,4 +445,14 @@ ALTER KEYSPACE dse_security WITH replication = {'class': 'SimpleStrategy', 'repl
 nodetool repair system_auth
 nodetool repair dse_security
 
+11-12-2025:
+Upgrading the Clsuter:
+--------------
+
+[cassandra@node1 ~]$ pwd
+/home/cassandra
+[cassandra@node1 ~]$ ls
+dse  dse-5.1.48  dse-5.1.48-bin.tar.gz
+[cassandra@node1 ~]$ rm dse-5.1.48-bin.tar.gz
+[cassandra@node1 ~]$
 
