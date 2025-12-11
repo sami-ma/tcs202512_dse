@@ -456,12 +456,15 @@ dse  dse-5.1.48  dse-5.1.48-bin.tar.gz
 [cassandra@node1 ~]$ rm dse-5.1.48-bin.tar.gz
 [cassandra@node1 ~]$
 
+Upload the file dse-6.8.60-bin.tar.gz from Downloads dire of Windows System using Winscp
+
 [cassandra@node1 ~]$ ls
 dse  dse-5.1.48  dse-6.8.60-bin.tar.gz
 [cassandra@node1 ~]$
 
 [cassandra@node1 ~]$ nodetool flush
 [cassandra@node1 ~]$ nodetool drain
+[cassandra@node1 ~]$ nodetool upgradesstables --jobs 2
 [cassandra@node1 ~]$ dse cassandra-stop
 
 [cassandra@node1 ~]$ ps -ef|grep cassandra
@@ -473,13 +476,91 @@ cassand+   43912   20935  0 12:30 pts/0    00:00:00 grep --color=auto cassandra
 [cassandra@node1 ~]$
 
 
-[cassandra@node1 ~]$ ps -ef|grep cassandra
-root       20918    1489  0 10:20 pts/0    00:00:00 sudo su - cassandra
-root       20934   20918  0 10:20 pts/0    00:00:00 su - cassandra
-root       40141     733  0 12:22 ?        00:00:00 sshd: cassandra [priv]
-cassand+   40173   40141  5 12:22 ?        00:00:25 sshd: cassandra@notty
-cassand+   43912   20935  0 12:30 pts/0    00:00:00 grep --color=auto cassandra
-
 [cassandra@node1 ~]$ tar -xzf  dse-6.8.60-bin.tar.gz
+
+Update the softlink dse 
+
+[cassandra@node1 ~]$ ls -l
+total 1808724
+lrwxrwxrwx.  1 cassandra cassandra         10 Dec  9 12:28 dse -> dse-5.1.48
+drwxr-xr-x. 10 cassandra cassandra       4096 Dec 11 10:49 dse-5.1.48
+drwxr-xr-x. 10 cassandra cassandra       4096 Sep 11 23:36 dse-6.8.60
+-rw-r--r--.  1 cassandra cassandra 1852123073 Oct 30 13:32 dse-6.8.60-bin.tar.gz
+[cassandra@node1 ~]$ rm dse
+[cassandra@node1 ~]$ ls -l
+total 1808724
+drwxr-xr-x. 10 cassandra cassandra       4096 Dec 11 10:49 dse-5.1.48
+drwxr-xr-x. 10 cassandra cassandra       4096 Sep 11 23:36 dse-6.8.60
+-rw-r--r--.  1 cassandra cassandra 1852123073 Oct 30 13:32 dse-6.8.60-bin.tar.gz
+[cassandra@node1 ~]$ ln -s dse-6.8.60 dse
+[cassandra@node1 ~]$ ls -l
+total 1808724
+lrwxrwxrwx.  1 cassandra cassandra         10 Dec 11 12:33 dse -> dse-6.8.60
+drwxr-xr-x. 10 cassandra cassandra       4096 Dec 11 10:49 dse-5.1.48
+drwxr-xr-x. 10 cassandra cassandra       4096 Sep 11 23:36 dse-6.8.60
+-rw-r--r--.  1 cassandra cassandra 1852123073 Oct 30 13:32 dse-6.8.60-bin.tar.gz
+[cassandra@node1 ~]$
+
+[cassandra@node1 lib]$ cd /var/lib
+[cassandra@node1 lib]$ pwd
+/var/lib
+
+[cassandra@node1 lib]$ tar -czf /tmp/cassandra51.tar.gz cassandra
+[cassandra@node1 lib]$ ls -l /tmp/
+[cassandra@node1 lib]$ cd
+
+Changes in casandra.yaml file:
+
+[cassandra@node1 ~]$ vi  dse/resources/cassandra/conf/cassandra.yaml
+[cassandra@node1 ~]$ grep cluster_name dse/resources/cassandra/conf/cassandra.yaml
+cluster_name: 'myclsuter'
+[cassandra@node1 ~]$ grep listen_address  dse/resources/cassandra/conf/cassandra.yaml
+
+listen_address: 10.0.26.2
+
+
+[cassandra@node1 ~]$ grep seeds  dse/resources/cassandra/conf/cassandra.yaml
+
+          - seeds: "10.0.26.2,10.0.26.3"
+[cassandra@node1 ~]$ grep native_transport_address  dse/resources/cassandra/conf/cassandra.yaml
+
+native_transport_address: 10.0.26.2
+
+Update new .dse.yaml file to enable authentication :
+
+Changes in dse.yaml file:
+
+role_management_options:
+     mode: internal
+#     stats: false
+#     mode_by_authentication:
+#         internal:
+#         ldap:
+#         kerberos:
+
+authorization_options:
+     enabled: false
+#     transitional_mode: disabled
+#     allow_row_level_security: false
+
+
+authentication_options:
+     enabled: true
+     default_scheme: internal
+#     allow_digest_with_kerberos: true
+#     plain_text_without_ssl: warn
+     transitional_mode: disabled
+#     other_schemes:
+#     scheme_permissions: false
+
+[cassandra@node1 ~]$ dse cassandra
+
+[cassandra@node1 ~]$ nodetool upgradesstables --jobs 2
+[cassandra@node1 ~]$ nodetool status
+
+** End of First Seed node upgrade **  
+Repeat same step for other 3 nodes.
+
+
 
 
