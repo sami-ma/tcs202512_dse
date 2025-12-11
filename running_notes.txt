@@ -463,3 +463,23 @@ dse  dse-5.1.48  dse-6.8.60-bin.tar.gz
 [cassandra@node1 ~]$ nodetool flush
 [cassandra@node1 ~]$ nodetool drain
 [cassandra@node1 ~]$ dse cassandra-stop
+
+[cassandra@node1 ~]$ ps -ef|grep cassandra
+root       20918    1489  0 10:20 pts/0    00:00:00 sudo su - cassandra
+root       20934   20918  0 10:20 pts/0    00:00:00 su - cassandra
+root       40141     733  0 12:22 ?        00:00:00 sshd: cassandra [priv]
+cassand+   40173   40141  5 12:22 ?        00:00:25 sshd: cassandra@notty
+cassand+   43912   20935  0 12:30 pts/0    00:00:00 grep --color=auto cassandra
+[cassandra@node1 ~]$
+
+
+[cassandra@node1 ~]$ ps -ef|grep cassandra
+root       20918    1489  0 10:20 pts/0    00:00:00 sudo su - cassandra
+root       20934   20918  0 10:20 pts/0    00:00:00 su - cassandra
+root       40141     733  0 12:22 ?        00:00:00 sshd: cassandra [priv]
+cassand+   40173   40141  5 12:22 ?        00:00:25 sshd: cassandra@notty
+cassand+   43912   20935  0 12:30 pts/0    00:00:00 grep --color=auto cassandra
+
+[cassandra@node1 ~]$ tar -xzf  dse-6.8.60-bin.tar.gz
+
+
