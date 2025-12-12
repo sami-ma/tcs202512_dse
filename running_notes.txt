@@ -562,5 +562,45 @@ authentication_options:
 Repeat same step for other 3 nodes.
 
 
+OPS Center Installation:
+
+[admin@dse ~]$ sudo dnf -y install nginx
+[sudo] password for admin:
+
+[admin@dse ~]$ sudo dnf -y install epel-release
+
+
+[admin@dse ~]$ sudo dnf -y install python3-pip
+
+[admin@dse ~]$ sudo pip3 install psycopg2-binary cryptography
+
+
+[admin@dse ~]$ sudo useradd -r -s /bin/bash -m -d /opt/opscenter opscenter
+[admin@dse ~]$ ls -ld /opt/opscenter/
+drwx------. 2 opscenter opscenter 62 Dec 12 12:16 /opt/opscenter/
+[admin@dse ~]$
+
+[admin@dse ~]$ ls -ld /opt/opscenter/
+drwx------. 2 opscenter opscenter 62 Dec 12 12:16 /opt/opscenter/
+[admin@dse ~]$ sudo mkdir -p /var/log/opscenter
+[admin@dse ~]$ sudo mkdir -p /var/lib/opscenter
+[admin@dse ~]$ sudo mkdir -p /etc/opscenter
+[admin@dse ~]$ sudo chown -R opscenter:opscenter /var/log/opscenter
+[admin@dse ~]$ sudo chown -R opscenter:opscenter /var/lib/opscenter
+[admin@dse ~]$ sudo chown -R opscenter:opscenter /etc/opscenter
+[admin@dse ~]$
+
+
+[admin@dse opt]$ sudo passwd opscenter
+Changing password for user opscenter.
+New password:
+BAD PASSWORD: The password contains the user name in some form
+Retype new password:
+passwd: all authentication tokens updated successfully.
+[admin@dse opt]$ ls
+
+UPload the tar.gz from Downloads folder to opscenter user's home dir (opt/opscenter) using winscp
+
+
 
 
