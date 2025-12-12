@@ -670,6 +670,54 @@ total 8
 -rw-------. 1 opscenter opscenter 1237 Dec 12 12:51 opscenter.pem
 [opscenter@dse ssl]$
 
+PostgreSQL 
+
+[admin@dse opt]$ sudo dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+Last metadata expiration check: 0:48:45 ago on Fri 12 Dec 2025 12:11:58 PM IST.
+pgdg-redhat-repo-latest.noarch.rpm           200 kB/s |  13 kB     00:00
+Dependencies resolved.
+=============================================================================
+ Package             Arch      Version                 Repository       Size
+=============================================================================
+Installing:
+ pgdg-redhat-repo    noarch    42.0-63.rhel9PGDG       @commandline     13 k
+
+Transaction Summary
+=============================================================================
+Install  1 Package
+
+Total size: 13 k
+Installed size: 18 k
+Downloading Packages:
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Preparing        :                                                     1/1
+  Installing       : pgdg-redhat-repo-42.0-63.rhel9PGDG.noarch           1/1
+  Verifying        : pgdg-redhat-repo-42.0-63.rhel9PGDG.noarch           1/1
+
+Installed:
+  pgdg-redhat-repo-42.0-63.rhel9PGDG.noarch
+
+Complete!
+[admin@dse opt]$
+
+sudo dnf install -y postgresql16 postgresql16-server
+
+[admin@dse opt]$ sudo /usr/pgsql-16/bin/postgresql-16-setup initdb
+Initializing database ... OK
+
+[admin@dse opt]$
+
+
+[admin@dse opt]$ sudo systemctl start  postgresql-16.service
+[admin@dse opt]$
+[admin@dse opt]$ sudo systemctl enable  postgresql-16.service
+Created symlink /etc/systemd/system/multi-user.target.wants/postgresql-16.service → /usr/lib/systemd/system/postgresql-16.service.
+[admin@dse opt]$
+
 
 
 
