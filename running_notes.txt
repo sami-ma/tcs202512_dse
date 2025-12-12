@@ -601,6 +601,77 @@ passwd: all authentication tokens updated successfully.
 
 UPload the tar.gz from Downloads folder to opscenter user's home dir (opt/opscenter) using winscp
 
+[opscenter@dse ~]$ tar -xzf opscenter-6.7.8.tar.gz
+[opscenter@dse ~]$ ls
+opscenter-6.7.8  opscenter-6.7.8.tar.gz
+[opscenter@dse ~]$ ln -s opscenter-6.7.8 current
+[opscenter@dse ~]$ ll
+total 352092
+lrwxrwxrwx.  1 opscenter opscenter        15 Dec 12 12:35 current -> opscenter-6.7.8
+drwxr-xr-x. 15 opscenter opscenter      4096 May 19  2020 opscenter-6.7.8
+-rw-r--r--.  1 opscenter opscenter 360534586 Oct 30 13:30 opscenter-6.7.8.tar.gz
+[opscenter@dse ~]$ rm opscenter-6.7.8.tar.gz
+[opscenter@dse ~]$
+
+[opscenter@dse ~]$ vi /etc/opscenter/opscenterd.conf
+[opscenter@dse ~]$ cat /etc/opscenter/opscenterd.conf
+[webserver]
+port = 8888
+interface = 0.0.0.0
+[logging]
+level = INFO
+log_path = /var/log/opscenter/opscenterd.log
+[authentication]
+enabled = True
+[ssl]
+ssl_keyfile = /etc/opscenter/ssl/opscenter.key
+ssl_certfile = /etc/opscenter/ssl/opscenter.pem
+ssl_port = 8443
+[agents]
+agent_rpc_interface = 10.0.26.1
+agent_rpc_broadcast_address = 10.0.26.1
+[stat_reporter]
+enabled = False
+[kerberos]
+enabled = False
+[cassandra]
+seed_hosts = 10.0.26.2,10.0.26.3
+[opscenter@dse ~]$
+
+[opscenter@dse ~]$ mkdir -p /etc/opscenter/ssl
+[opscenter@dse ~]$ cd /etc/opscenter/ssl
+
+[opscenter@dse ssl]$ openssl req -x509 -nodes -days 365 -newkey rsa:2048  -keyout opscenter.key -out opscenter.pem
+..+.....+...+++++++++++++++++++++++++++++++++++++++*...+++++++++++++++++++++++++++++++++++++++*...+..+............+...+....+........+...+...................+.....+.+...+.....+.......+..................+...........+...+...+....+.........+.........+.....+...+..........+...+.....+......+...+...+...+.+........+...........................+...+...+.......+.....+.............+........+....+.....................+.....+.+...+...........+.+...+..+.............+...+...+....................+.......+..+.+...........+.........+.........+.+.....+.+...........+.........+.+.....+.......+.....+.+......+.........+.....+.+.........+......+...+...........+.........+.+......+........+...+...+.......+...+.........+..+.+..+.....................+.......+..+.......+...+...........+.+........+.+..+..........+..+...+...+....+..+.+............+..+.+...+..+............+.......+...+...+........+......+...............++++++
+..+++++++++++++++++++++++++++++++++++++++*....+........+++++++++++++++++++++++++++++++++++++++*...........+..........+...+......+.....+....+......+.........+..++++++
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [**]:
+State or Province Name (full name) []:
+Locality Name (eg, city) [Default City]:
+Organization Name (eg, company) [Default Company Ltd]:
+Organizational Unit Name (eg, section) []:
+Common Name (eg, your name or your server's hostname) []:
+Email Address []:
+[opscenter@dse ssl]$
+
+
+
+[opscenter@dse ssl]$ chmod 600 /etc/opscenter/ssl/*
+[opscenter@dse ssl]$ ls -l
+total 8
+-rw-------. 1 opscenter opscenter 1704 Dec 12 12:50 opscenter.key
+-rw-------. 1 opscenter opscenter 1237 Dec 12 12:51 opscenter.pem
+[opscenter@dse ssl]$
+
+
+
 
 
 
