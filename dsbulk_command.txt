@@ -1,0 +1,38 @@
+[root@crdb ~]# wget https://github.com/datastax/dsbulk/releases/download/1.11.0/dsbulk-1.11.0.tar.gz
+[root@crdb ~]# ls
+ dsbulk-1.11.0.tar.gz
+[root@crdb ~]# tar -xzf dsbulk-1.11.0.tar.gz
+[root@crdb ~]# ls
+anaconda-ks.cfg  dsbulk-1.11.0  dsbulk-1.11.0.tar.gz
+[root@crdb ~]# cd dsbulk-1.11.0/
+[root@crdb dsbulk-1.11.0]# ls
+bin  conf  lib  LICENSE.txt  manual  README.md  THIRD-PARTY.txt
+[root@crdb dsbulk-1.11.0]# cd bin/
+[root@crdb bin]# ls
+dsbulk  dsbulk.cmd
+[root@crdb bin]# cd
+
+[root@crdb ~]# mkdir bkp
+[root@crdb ~]# ls
+anaconda-ks.cfg  dsbulk-1.11.0  dsbulk-1.11.0.tar.gz bkp
+
+Export to CSV file:
+
+[root@crdb ~]# dsbulk-1.11.0/bin/dsbulk unload -k excalibur -t t1  -u cassandra -p cassandra -h '172.21.3.196' -url bkp/t1.csv
+[root@crdb ~]# 
+
+Import From CSV
+
+[root@crdb ~]# dsbulk-1.11.0/bin/dsbulk load -k excalibur -t t1  -u cassandra -p cassandra -h '172.21.3.196' -url bkp/t1.csv
+[root@crdb ~]#
+
+For JSON:
+
+dsbulk load -url t1.json -k excalibur -t t1 --connector.json.urlfile users.json
+
+Export Using Query:
+
+dsbulk unload -query "SELECT * FROM mykeyspace.mytable WHERE id > <val> AND id <val> ALLOW FILTERING" -url filtered.csv
+
+
+
